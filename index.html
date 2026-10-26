@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CommunityShield | Stronger Communities</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f8f4;
+      color: #24352b;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #176b45;
+      color: white;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav {
+      background: #105537;
+      padding: 12px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .hero {
+      background: #d9f1e2;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #00000010;
+    }
+
+    h2 {
+      color: #176b45;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #aab9af;
+      border-radius: 6px;
+      font: inherit;
+    }
+
+    button {
+      margin-top: 16px;
+      background: #176b45;
+      color: white;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #105537;
+    }
+
+    .notice {
+      background: #fff3cd;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .report {
+      border-left: 4px solid #176b45;
+      padding: 12px;
+      margin: 14px 0;
+      background: #f5faf6;
+      overflow-wrap: anywhere;
+    }
+
+    .report h3 {
+      margin-top: 0;
+    }
+
+    #message {
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      background: #105537;
+      color: white;
+      margin-top: 30px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <header>
+    <h1>🌍 CommunityShield</h1>
+    <p>Stronger communities. Safer futures.</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#safety">Safety Tips</a>
+    <a href="#report">Report a Problem</a>
+    <a href="#community-reports">Community Reports</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <h2>Building Climate-Resilient Communities</h2>
+      <p>
+        CommunityShield provides practical climate preparedness advice
+        and a simple way to document local infrastructure problems.
+      </p>
+    </section>
+
+    <section class="card" id="safety">
+      <h2>🌧️ Flood Preparedness</h2>
+      <ul>
+        <li>Stay away from flooded roads and fast-moving water.</li>
+        <li>Follow trusted local weather and emergency updates.</li>
+        <li>Keep important emergency contacts accessible.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>💧 Save Water</h2>
+      <ul>
+        <li>Turn off taps when water is not needed.</li>
+        <li>Repair leaking taps when it is safe to do so.</li>
+        <li>Follow local water-use restrictions.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>☀️ Extreme Heat Safety</h2>
+      <ul>
+        <li>Drink water regularly.</li>
+        <li>Stay in shade or a cool place when possible.</li>
+        <li>Check on vulnerable neighbours when safe to do so.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="report">
+      <h2>📢 Report a Community Problem</h2>
+
+      <p>
+        Use this form to document a local infrastructure problem.
+        Do not include your name, phone number, home address, or other
+        private information.
+      </p>
+
+      <form id="reportForm">
+        <label for="problem">Type of problem</label>
+        <select id="problem" required>
+          <option value="">Choose a problem</option>
+          <option value="Water leak">Water leak</option>
+          <option value="Blocked drain">Blocked drain</option>
+          <option value="Flooding">Flooding</option>
+          <option value="Electricity disruption">Electricity disruption</option>
+          <option value="Damaged public area">Damaged public area</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="location">General area (not your home address)</label>
+        <input
+          id="location"
+          type="text"
+          maxlength="100"
+          placeholder="Example: near the community park"
+          required
+        >
+
+        <label for="details">Problem details</label>
+        <textarea
+          id="details"
+          rows="4"
+          maxlength="500"
+          placeholder="Describe the problem without private information"
+          required
+        ></textarea>
+
+        <button type="submit">Save Report</button>
+        <p id="message" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="notice">
+        Prototype notice: reports are saved only in this browser on this
+        device. They are not sent to authorities or shared online.
+        Community reports are unverified and are not official emergency alerts.
+        For emergencies, contact the appropriate local emergency service.
+      </p>
+    </section>
+
+    <section class="card" id="community-reports">
+      <h2>Community Reports</h2>
+      <p>Reports saved in this browser will appear below.</p>
+      <div id="reportsList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>CommunityShield | Climate Resilience and Essential Services</p>
+    <p>Community information supports preparedness; reports are unverified.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById("reportForm");
+    const message = document.getElementById("message");
+    const reportsList = document.getElementById("reportsList");
+
+    const STORAGE_KEY = "communityShieldReports";
+const SUPABESE_URL="https://tchxwrauxysfywglmhwe.supabase.co";
+const SUPABASE_KEY="sb_publishable_wBOE7e4IdZj0VsUsK_I2EQ_crZMjwh9";
+ const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);   
+function getReports() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const reports = saved ? JSON.parse(saved) : [];
+        return Array.isArray(reports) ? reports : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function displayReports() {
+      const reports = getReports();
+      reportsList.replaceChildren();
+
+      if (reports.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No reports saved yet.";
+        reportsList.appendChild(emptyMessage);
+        return;
+      }
+
+      reports.slice().reverse().forEach(function(report) {
+        const item = document.createElement("article");
+        item.className = "report";
+
+        const title = document.createElement("h3");
+        title.textContent = report.problem;
+
+        const area = document.createElement("p");
+        area.textContent = "General area: " + report.location;
+
+        const details = document.createElement("p");
+        details.textContent = report.details;
+
+        const date = document.createElement("small");
+        date.textContent = "Submitted: " + report.date;
+
+        item.append(title, area, details, date);
+        reportsList.appendChild(item);
+      });
+    }
+
+    form.addEventListener("submit",async  function(event) {
+      event.preventDefault();
+
+      const problem = document.getElementById("problem").value;
+      const location = document.getElementById("location").value.trim();
+      const details = document.getElementById("details").value.trim();
+
+      if (!problem || !location || !details) {
+        message.textContent = "Please complete all fields.";
+        return;
+      }
+
+      const reports = getReports();
+
+      reports.push({
+        problem: problem,
+        location: location,
+        details: details,
+        date: new Date().toLocaleString()
+      });
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+
+        message.textContent = "Report saved successfully in this browser!";
+        form.reset();
+        displayReports();
+      } catch (error) {
+        message.textContent =
+          "Unable to save the report in this browser. Please try again.";
+      }
+    });
+
+    displayReports();
+  </script>
+</body>
+</html>
